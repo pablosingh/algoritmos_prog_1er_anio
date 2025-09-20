@@ -1,0 +1,13 @@
+# Carpetas de PyCharm
+.idea/
+
+# Carpetas de VS Code
+.vscode/
+
+# Entornos virtuales
+venv/
+.venv/
+
+# Archivos de sistema
+__pycache__/
+*.pyc
