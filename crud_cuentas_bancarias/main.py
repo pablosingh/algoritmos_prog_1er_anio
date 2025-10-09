@@ -64,9 +64,9 @@ def borrar_cuenta_bancaria():
         cuentas.pop(indice_cuenta_a_buscar)
         print("Eliminado")
 
-def mostrar_menu_edicion():
+def mostrar_menu_edicion(nombre, apellido, tipo, saldo):
     print("\n===============================")
-    print("Editando...")
+    print(f"Editando... | {nombre} \t | {apellido} \t | {tipo} \t | {saldo}")
     print("0 - Fin de Edicion")
     print("1 - Editar Nombre")
     print("2 - Editar Apellido")
@@ -84,7 +84,7 @@ def editar_cuenta():
         tipo = cuenta.tipo
         saldo = cuenta.saldo
     while cuenta:
-        mostrar_menu_edicion()
+        mostrar_menu_edicion(nombre, apellido, tipo, saldo)
         opcion = ingresa_opcion()
         if opcion == 0:
             cuentas[indice].nombre = nombre

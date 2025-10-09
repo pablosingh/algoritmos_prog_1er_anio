@@ -7,5 +7,5 @@ class Cuenta:
         self.saldo = saldo
 
     def __str__(self) -> str:
-        return f"Cuenta {self.numero} | {self.nombre} | {self.apellido} | {self.tipo} : {self.saldo}"
+        return f"Cuenta {self.numero} | {self.nombre} \t| {self.apellido} \t| {self.tipo} \t| {self.saldo}"
 
