@@ -1,5 +1,7 @@
+from Fecha import Fecha
+
 class Persona:
-    def __init__(self, nombre, apellido, fecha_nacimiento, cuil, dni):
+    def __init__(self, nombre: str, apellido: str, fecha_nacimiento: Fecha, cuil: str, dni: str):
         self.nombre = nombre
         self.apellido = apellido
         self.fecha_nacimiento = fecha_nacimiento
