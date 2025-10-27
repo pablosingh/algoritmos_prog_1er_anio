@@ -1,4 +1,6 @@
 from GestorDeProductos import GestorDeProductos
+from GestorDeClientes import GestorDeClientes
+
 
 def mostrar_menu():
     print("--- MENU DE PRODUCTOS ---")
@@ -14,7 +16,7 @@ def mostrar_menu_principal()-> None:
     print("--- MENU PRINCIPAL ---")
     print("0- Salir")
     print("1- Gestor de Productos")
-    print("2- Gestor de ¨Clientes")
+    print("2- Gestor de Clientes")
 
 def pedir_opcion_valida()-> str:
     opciones_validas = ["0","1","2"]
@@ -28,27 +30,17 @@ def pedir_opcion_valida()-> str:
 def main():
     gestor_de_productos = GestorDeProductos()
     gestor_de_productos.cargar_productos()
+    gestor_de_clientes = GestorDeClientes()
+    gestor_de_clientes.cargar_clientes()
     while True:
         mostrar_menu_principal()
         opcion = pedir_opcion_valida()
-        if opcion == "1":
-            gestor_de_productos.listar_productos()
-        elif opcion == "2":
-            gestor_de_productos.buscar_producto_por_codigo()
-        elif opcion == "3":
-            gestor_de_productos.agregar_nuevo_producto()
-        elif opcion == "4":
-            gestor_de_productos.modificar_producto_existente()
-        elif opcion == "5":
-            gestor_de_productos.eliminar_producto_existente()
-        elif opcion == "6":
-            print("Guardando productos...")
-            gestor_de_productos.guardar_productos()
-            print("Productos guardados con éxito")
-        elif opcion == "7":
+        if opcion == "0":
             print("Gracias por utilizar el programa")
             break
-        else:
-            print("Opción inválida")
+        elif opcion == "1":
+            gestor_de_productos.menu_productos()
+        elif opcion == "2":
+            gestor_de_clientes.menu_clientes()
 
 main()

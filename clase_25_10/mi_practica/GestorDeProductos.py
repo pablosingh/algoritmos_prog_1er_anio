@@ -83,3 +83,30 @@ class GestorDeProductos:
                 print("Se ha cancelado la operacion, producto NO eliminado")
         else:
             print(f"No se encontró un producto con código '{codigo}'")
+
+    def mostrar_menu_productos(self)-> None:
+        print("============ MENU DE PRODUCTOS ================")
+        print("\t0- Volver - Salir")
+        print("\t1- Agregar Producto")
+        print("\t2- Editar Producto")
+        print("\t3- Borrar Producto")
+        print("\t4- Listar todos los Productos")
+
+    def menu_productos(self)-> None:
+        opciones = ["0", "1", "2", "3", "4"]
+        while True:
+            self.mostrar_menu_productos()
+            opcion = input("\tOpcion : ")
+            if opcion in opciones:
+                if opcion == "0":
+                    break
+                elif opcion == "1":
+                    self.agregar_nuevo_producto()
+                elif opcion == "2":
+                    self.modificar_producto_existente()
+                elif opcion == "3":
+                    self.eliminar_producto_existente()
+                elif opcion == "4":
+                    self.listar_productos()
+            else:
+                print("Opcion invalida")

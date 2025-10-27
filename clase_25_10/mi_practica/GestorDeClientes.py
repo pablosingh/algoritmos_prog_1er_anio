@@ -6,13 +6,14 @@ from Herramientas import Herramientas
 
 class GestorDeClientes:
     def __init__(self):
-        self.clientes = list[Cliente] = []
+        self.clientes: list[Cliente] = []
 
     def agregar_cliente(self)-> None:
         nombre = input("Ingrese el Nombre y/o Apellido : ")
         dni = int(input("Ingrese el DNI : "))
         fecha_nacimiento_str = Herramientas.pedir_fecha_valida()
         self.clientes.append(Cliente(nombre, dni, Fecha(fecha_nacimiento_str)))
+        self.guardar_clientes()
 
     def mostrar_clientes(self)-> None:
         for cliente in self.clientes:
@@ -30,16 +31,17 @@ class GestorDeClientes:
         cliente = self.buscar_cliente_por_dni()
         if cliente:
             self.clientes.remove(cliente)
+            self.guardar_clientes()
         else:
             print("No se encontro el Cliente a Borrar")
 
     def mostrar_menu_editar(self, cliente: Cliente)->None:
-        print("Menu de Edición =============================")
-        print(f"\tDNI: {cliente.dni} | {cliente.nombre} | {cliente.fecha_nacimiento}")
-        print("\t1. Editar Nombre/Apellido")
-        print("\t2. Editar DNI")
-        print("\t3. Editar Fecha de Nacimiento")
-        print("\t4. Guardar y Salir - Volver")
+        print("\tMenu de Edición =============================")
+        print(f"\t\tDNI: {cliente.dni} | {cliente.nombre} | {cliente.fecha_nacimiento}")
+        print("\t\t1. Editar Nombre/Apellido")
+        print("\t\t2. Editar DNI")
+        print("\t\t3. Editar Fecha de Nacimiento")
+        print("\t\t4. Guardar y Salir - Volver")
 
     def editar_cliente(self)->None:
         cliente = self.buscar_cliente_por_dni()
@@ -60,6 +62,7 @@ class GestorDeClientes:
                         cliente.fecha_nacimiento = fecha_nac
                     elif opcion == "4":
                         print("Cliente Editado - Volviendo")
+                        self.guardar_clientes()
                         break
                 else:
                     print("Opcion invalida")
@@ -67,9 +70,36 @@ class GestorDeClientes:
             print("Cliente no encontrado")
 
     def guardar_clientes(self)-> None:
-        with open("clientes.bin", "w") as archivo:
+        with open("clientes.bin", "wb") as archivo:
             pickle.dump(self.clientes, archivo)
 
     def cargar_clientes(self)-> None:
         with open("clientes.bin", "rb") as archivo:
             self.clientes = pickle.load(archivo)
+
+    def mostrar_menu_clientes(self)-> None:
+        print("========== MENU DE CLIENTES ===============")
+        print("\t0- Volver - Salir")
+        print("\t1- Agregar Cliente")
+        print("\t2- Editar Cliente")
+        print("\t3- Borrar Cliente")
+        print("\t4- Listar todos los Clientes")
+
+    def menu_clientes(self)-> None:
+        opciones = ["0", "1", "2", "3", "4"]
+        while True:
+            self.mostrar_menu_clientes()
+            opcion = input("\tOpcion : ")
+            if opcion in opciones:
+                if opcion == "0":
+                    break
+                elif opcion == "1":
+                    self.agregar_cliente()
+                elif opcion == "2":
+                    self.editar_cliente()
+                elif opcion == "3":
+                    self.borrar_cliente_por_dni()
+                elif opcion == "4":
+                    self.mostrar_clientes()
+            else:
+                print("Opcion invalida")

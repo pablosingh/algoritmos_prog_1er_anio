@@ -7,4 +7,4 @@ class Cliente:
         self.fecha_nacimiento = fecha_nacimiento
 
     def __str__(self):
-        return f"DNI: {self.dni} | {self.nombre} | Nac: {self.fecha_nacimiento}"
+        return f"DNI: {self.dni} | {self.nombre} | {self.fecha_nacimiento}"
