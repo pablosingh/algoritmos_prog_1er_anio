@@ -7,12 +7,18 @@ class GestorDeProductos:
         self.productos: list[Product] = []
 
     def cargar_productos(self):
-        with open("productos.bin", "rb") as mi_base_de_productos:
-            self.productos = pickle.load(mi_base_de_productos)
+        try:
+            with open("productos.bin", "rb") as mi_base_de_productos:
+                self.productos = pickle.load(mi_base_de_productos)
+        except FileNotFoundError:
+            self.guardar_productos()
 
     def guardar_productos(self):
-        with open("productos.bin", "wb") as mi_base_de_productos:
-            pickle.dump(self.productos, mi_base_de_productos)
+        try:
+            with open("productos.bin", "wb") as mi_base_de_productos:
+                pickle.dump(self.productos, mi_base_de_productos)
+        except:
+            print("No se ha podido guardar el archivo")
 
     def listar_productos(self):
         print(f"---- Listando {len(self.productos)} productos ----")

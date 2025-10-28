@@ -70,12 +70,19 @@ class GestorDeClientes:
             print("Cliente no encontrado")
 
     def guardar_clientes(self)-> None:
-        with open("clientes.bin", "wb") as archivo:
-            pickle.dump(self.clientes, archivo)
+        try:
+            with open("clientes.bin", "wb") as archivo:
+                pickle.dump(self.clientes, archivo)
+        except FileNotFoundError:
+            print("No se ha podido guardar el archivo")
 
     def cargar_clientes(self)-> None:
-        with open("clientes.bin", "rb") as archivo:
-            self.clientes = pickle.load(archivo)
+        try:
+            with open("clientes.bin", "rb") as archivo:
+                self.clientes = pickle.load(archivo)
+        except FileNotFoundError:
+            self.guardar_clientes()
+
 
     def mostrar_menu_clientes(self)-> None:
         print("========== MENU DE CLIENTES ===============")
