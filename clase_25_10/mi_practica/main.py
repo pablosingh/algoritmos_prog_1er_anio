@@ -17,6 +17,7 @@ def mostrar_menu_principal()-> None:
     print("0- Salir")
     print("1- Gestor de Productos")
     print("2- Gestor de Clientes")
+    print("3- Gestor Compras")
 
 def pedir_opcion_valida()-> str:
     opciones_validas = ["0","1","2"]
