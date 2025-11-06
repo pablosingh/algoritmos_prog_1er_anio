@@ -30,7 +30,6 @@ class GestorDeCompras:
         except FileNotFoundError:
             self.guardar_compras()
 
-
     def agregar_compra(self)->None:
         print("Nueva Compra: Ingrese su Cliente -")
         while True:
@@ -51,6 +50,10 @@ class GestorDeCompras:
 
             print("Desea seguir agregando productos")
             si = input("Si / No : ").strip().lower()
+            while not si:
+                print("Debe escribir 'Si' o 'No'.")
+                print("Desea seguir agregando productos")
+                si = input("Si / No : ").strip().lower()
             if si[0] == "n":
                 self.compras.append(nueva_compra)
                 self.guardar_compras()
