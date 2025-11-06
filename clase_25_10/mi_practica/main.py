@@ -1,5 +1,6 @@
 from GestorDeProductos import GestorDeProductos
 from GestorDeClientes import GestorDeClientes
+from clase_25_10.mi_practica.GestorDeCompras import GestorDeCompras
 
 
 def mostrar_menu():
@@ -20,7 +21,7 @@ def mostrar_menu_principal()-> None:
     print("3- Gestor Compras")
 
 def pedir_opcion_valida()-> str:
-    opciones_validas = ["0","1","2"]
+    opciones_validas = ["0","1","2","3"]
     while True:
         opcion = input("Seleccione una ocion: ")
         if opcion not in opciones_validas:
@@ -33,6 +34,8 @@ def main():
     gestor_de_productos.cargar_productos()
     gestor_de_clientes = GestorDeClientes()
     gestor_de_clientes.cargar_clientes()
+    gestor_de_compras = GestorDeCompras(gestor_de_clientes, gestor_de_productos)
+    gestor_de_compras.cargar_compras()
     while True:
         mostrar_menu_principal()
         opcion = pedir_opcion_valida()
@@ -43,5 +46,7 @@ def main():
             gestor_de_productos.menu_productos()
         elif opcion == "2":
             gestor_de_clientes.menu_clientes()
+        elif opcion == "3":
+            gestor_de_compras.menu_compras()
 
 main()
