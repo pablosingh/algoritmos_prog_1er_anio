@@ -57,20 +57,19 @@ class GestorDeVuelos:
         self.vuelos.append(vuelo)
         print("Vuelo agregado correctamente.\n")
 
-    def buscar_vuelo_por_origen_destino(self) -> Vuelo | None:
+    def buscar_vuelo_por_origen_destino(self) -> list[Vuelo]:
+        vuelos_encontrados: list[Vuelo] = []
         origen = self.pedir_ciudad_valida("Origen del vuelo a Buscar: ")
         destino = self.pedir_ciudad_valida("Destino del vuelo a Buscar: ")
 
         for vuelo in self.vuelos:
             if vuelo.origen.lower() == origen.lower() and vuelo.destino.lower() == destino.lower():
-                print("Vuelo Encontrado: ")
                 print(vuelo)
-                return vuelo
-        print("Vuelo No encontrado")
-        return None
+                vuelos_encontrados.append(vuelo)
+        return vuelos_encontrados
 
     def buscar_vuelo_por_id(self)-> Vuelo | None:
-        id = Herramientas.pedir_entero("Ingrese el Id del Vuelo a buscar : ")
+        id = Herramientas.pedir_entero("Ingrese el Id del Vuelo : ")
         for vuelo in self.vuelos:
             if vuelo.id == id:
                 return vuelo
@@ -112,14 +111,31 @@ class GestorDeVuelos:
         else:
             print("No se encontró el vuelo a editar.\n")
 
-    def mostrar_vuelos(self) -> None:
+    def mostrar_vuelos(self, vuelos_filtrados: list[Vuelo] = []) -> None:
         print("=== Lista de Vuelos ===")
         if not self.vuelos:
             print("No hay vuelos registrados.\n")
+        elif len(vuelos_filtrados):
+            for vuelo in vuelos_filtrados:
+                print(vuelo)
         else:
             for vuelo in self.vuelos:
                 print(vuelo)
 
+    def filtrar_vuelos_por_fecha(self, vuelos_para_filtrar: list[Vuelo] | None)-> list[Vuelo]:
+        vuelos_filtrados:list[Vuelo] = []
+        fecha_str: str = FechaHora.pedir_fecha_valida_sin_horas()
+        dia, mes, anio = map(int, fecha_str.split('/'))
+        if vuelos_para_filtrar:
+            for vuelo in vuelos_para_filtrar:
+                if vuelo.fecha_salida.dia == dia and vuelo.fecha_salida.mes == mes and vuelo.fecha_salida.anio == anio:
+                    vuelos_filtrados.append(vuelo)
+        else:
+            for vuelo in self.vuelos:
+                if vuelo.fecha_salida.dia == dia and vuelo.fecha_salida.mes == mes and vuelo.fecha_salida.anio == anio:
+                    vuelos_filtrados.append(vuelo)
+        return vuelos_filtrados
+        
     def mostrar_menu_vuelos(self) -> None:
         print("\n===== MENÚ DE VUELOS =====")
         print("0 - Salir")
