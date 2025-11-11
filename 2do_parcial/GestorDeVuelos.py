@@ -113,11 +113,11 @@ class GestorDeVuelos:
 
     def mostrar_vuelos(self, vuelos_filtrados: list[Vuelo] = []) -> None:
         print("=== Lista de Vuelos ===")
-        if not self.vuelos:
-            print("No hay vuelos registrados.\n")
-        elif len(vuelos_filtrados):
+        if len(vuelos_filtrados):
             for vuelo in vuelos_filtrados:
                 print(vuelo)
+        elif not self.vuelos:
+            print("No hay vuelos registrados.\n")
         else:
             for vuelo in self.vuelos:
                 print(vuelo)
@@ -135,7 +135,7 @@ class GestorDeVuelos:
                 if vuelo.fecha_salida.dia == dia and vuelo.fecha_salida.mes == mes and vuelo.fecha_salida.anio == anio:
                     vuelos_filtrados.append(vuelo)
         return vuelos_filtrados
-        
+
     def mostrar_menu_vuelos(self) -> None:
         print("\n===== MENÚ DE VUELOS =====")
         print("0 - Salir")

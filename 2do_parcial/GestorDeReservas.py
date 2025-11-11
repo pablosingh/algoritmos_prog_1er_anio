@@ -17,6 +17,10 @@ class GestorDeReservas:
         pasajero_encontrado: Pasajero | None = self.gestor_de_pasajeros.buscar_pasajero_por_dni()
         vuelos_filtrados: list[Vuelo] = self.gestor_de_vuelos.buscar_vuelo_por_origen_destino()
         self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados)
+        if Herramientas.pedir_confirmacion("Desea Filtrar vuelos por Fecha?"):
+            vuelos_filtrados_por_fecha = self.gestor_de_vuelos.filtrar_vuelos_por_fecha(vuelos_filtrados)
+            self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados_por_fecha)
+
         vuelo_encontrado: Vuelo | None = self.gestor_de_vuelos.buscar_vuelo_por_id()
 
         nueva_reserva: Reserva | None = Reserva(pasajero_encontrado, vuelo_encontrado, FechaHora())
