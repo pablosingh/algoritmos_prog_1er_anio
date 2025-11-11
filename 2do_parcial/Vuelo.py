@@ -1,7 +1,8 @@
 from FechaHora import FechaHora
 
 class Vuelo:
-    def __init__(self, origen: str, destino: str, fecha_salida: FechaHora, fecha_llegada: FechaHora ):
+    def __init__(self, id: int, origen: str, destino: str, fecha_salida: FechaHora, fecha_llegada: FechaHora ):
+        self.id = id
         self.origen = origen
         self.destino = destino
         self.fecha_salida = fecha_salida
