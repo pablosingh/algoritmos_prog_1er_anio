@@ -58,12 +58,15 @@ class GestorDeVuelos:
         print("Vuelo agregado correctamente.\n")
 
     def buscar_vuelo_por_origen_destino(self) -> Vuelo | None:
-        origen = input("Ingrese el origen del vuelo: ")
-        destino = input("Ingrese el destino del vuelo: ")
+        origen = self.pedir_ciudad_valida("Origen del vuelo a Buscar: ")
+        destino = self.pedir_ciudad_valida("Destino del vuelo a Buscar: ")
 
         for vuelo in self.vuelos:
             if vuelo.origen.lower() == origen.lower() and vuelo.destino.lower() == destino.lower():
+                print("Vuelo Encontrado: ")
+                print(vuelo)
                 return vuelo
+        print("Vuelo No encontrado")
         return None
 
     def buscar_vuelo_por_id(self)-> Vuelo | None:
@@ -118,7 +121,7 @@ class GestorDeVuelos:
                 print(vuelo)
 
     def mostrar_menu_vuelos(self) -> None:
-        print("\n===== MENÚ GESTOR DE VUELOS =====")
+        print("\n===== MENÚ DE VUELOS =====")
         print("0 - Salir")
         print("1 - Agregar Vuelo")
         print("2 - Buscar Vuelo")
