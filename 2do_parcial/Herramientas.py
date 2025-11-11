@@ -27,3 +27,16 @@ class Herramientas:
             else:
                 print("Formato invalido.")
 
+    @staticmethod
+    def pedir_confirmacion(mensaje: str) -> bool:
+        while True:
+            respuesta = input(f"{mensaje} (S/N) o (Enter = Si) : ").strip().lower()
+            if not respuesta:
+                return True
+
+            if respuesta[0] == "s":
+                return True
+            elif respuesta[0] == "n":
+                return False
+            else:
+                print("Opción inválida. Ingrese 'S' para Sí o 'N' para No.")

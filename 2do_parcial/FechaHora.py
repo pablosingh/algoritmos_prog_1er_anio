@@ -23,8 +23,10 @@ class FechaHora:
         return re.match(patron, fecha_hora) is not None
 
     @staticmethod
-    def pedir_fecha_hora_valida(self) -> str:
+    def pedir_fecha_hora_valida(self, mensaje: str = None) -> str:
         while True:
+            if mensaje:
+                print(mensaje)
             fecha_hora = input("Ingrese la fecha y hora (dd/mm/aaaa HH:MM) : ")
             if self.es_fecha_hora_valida(fecha_hora):
                 return fecha_hora

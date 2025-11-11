@@ -37,25 +37,23 @@ class GestorDeVuelos:
         else:
             return self.vuelos[len(self.vuelos) - 1].id + 1
 
+    def pedir_ciudad_valida(self, mensaje: str) -> str:
+        while True:
+            print(mensaje)
+            self.mostrar_menu_ciudades()
+            indice_de_ciudad = Herramientas().pedir_entero("Ingrese el nro de la Ciudad") - 1
+            if indice_de_ciudad >= 0 and indice_de_ciudad < len(self.ciudades):
+                return self.ciudades[indice_de_ciudad]
+            else:
+                print("El nro de la ciudad es invalido")
+
     def agregar_vuelo(self) -> None:
         print("=== Agregar Nuevo Vuelo ===")
-
-        print("Ingrese el origen del vuelo: ")
-        self.mostrar_menu_ciudades()
-        indice_de_origen = Herramientas().pedir_entero("Ingrese el nro del Origen") - 1
-
-        print("Ingrese el destino del vuelo: ")
-        self.mostrar_menu_ciudades()
-        indice_de_destino = Herramientas().pedir_entero("Ingrese el nro del Destino") - 1
-
-
-        print("---- Fecha de salida ----")
-        fecha_salida = FechaHora.pedir_fecha_hora_valida()
-
-        print("---- Fecha de llegada ----")
-        fecha_llegada = FechaHora.pedir_fecha_hora_valida()
-
-        vuelo = Vuelo(self.calcular_id(), self.ciudades[indice_de_origen], self.ciudades[indice_de_destino], fecha_salida, fecha_llegada)
+        origen = self.pedir_ciudad_valida("Origen: ")
+        destino = self.pedir_ciudad_valida("Destino: ")
+        fecha_salida = FechaHora.pedir_fecha_hora_valida("Fecha Salida: ")
+        fecha_llegada = FechaHora.pedir_fecha_hora_valida("Fecha Llegada: ")
+        vuelo = Vuelo(self.calcular_id(), origen, destino, fecha_salida, fecha_llegada)
         self.vuelos.append(vuelo)
         print("Vuelo agregado correctamente.\n")
 
@@ -95,22 +93,18 @@ class GestorDeVuelos:
         print("=== Editar Vuelo ===")
         vuelo_a_editar = self.buscar_vuelo_por_id()
         if vuelo_a_editar:
-            print("Presione ENTER para mantener el valor actual.\n")
-            nuevo_origen = input(f"Origen actual: {vuelo_a_editar.origen} | Nuevo origen: ") or vuelo_a_editar.origen
-            nuevo_destino = input(f"Destino actual: {vuelo_a_editar.destino} | Nuevo destino: ") or vuelo_a_editar.destino
-
-            print("---- Nueva Fecha de salida (Enter para mantener) ----")
-            cambiar_salida = input("¿Desea cambiar la fecha de salida? (s/n): ").lower()
-            if cambiar_salida.startswith("s"):
-                vuelo_a_editar.fecha_salida = FechaHora.crear_desde_input()
-
-            print("---- Nueva Fecha de llegada (Enter para mantener) ----")
-            cambiar_llegada = input("¿Desea cambiar la fecha de llegada? (s/n): ").lower()
-            if cambiar_llegada.startswith("s"):
-                vuelo_a_editar.fecha_llegada = FechaHora.crear_desde_input()
-
-            vuelo_a_editar.origen = nuevo_origen
-            vuelo_a_editar.destino = nuevo_destino
+            if Herramientas.pedir_confirmacion(f"Editar Origen actual: {vuelo_a_editar.origen} "):
+                nuevo_origen = self.pedir_ciudad_valida(f"Nuevo origen: ")
+                vuelo_a_editar.origen = nuevo_origen
+            if Herramientas.pedir_confirmacion(f"Editar Destino actual: {vuelo_a_editar.destino} "):
+                nuevo_destino = self.pedir_ciudad_valida(f"Nuevo destino: ")
+                vuelo_a_editar.destino = nuevo_destino
+            if Herramientas.pedir_confirmacion(f"Editar Fecha Salida actual: {vuelo_a_editar.fecha_salida} "):
+                nueva_fecha_salida = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Salida: ")
+                vuelo_a_editar.fecha_salida = nueva_fecha_salida
+            if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_salida} "):
+                nueva_fecha_llegada = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: ")
+                vuelo_a_editar.fecha_llegada = nueva_fecha_llegada
             print("Vuelo actualizado correctamente.\n")
         else:
             print("No se encontró el vuelo a editar.\n")
@@ -136,7 +130,6 @@ class GestorDeVuelos:
         print("Ciudades Disponibles: ")
         for i in range(len(self.ciudades)):
             print(f"{i+1}- {self.ciudades[i]}")
-
 
     def menu_vuelos(self) -> None:
         while True:
