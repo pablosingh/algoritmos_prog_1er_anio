@@ -1,3 +1,4 @@
+import pickle
 import re
 
 class Herramientas:
@@ -40,3 +41,22 @@ class Herramientas:
                 return False
             else:
                 print("Opción inválida. Ingrese 'S' para Sí o 'N' para No.")
+
+    @staticmethod
+    def guardar_archivo_bin(nombre, arreglo):
+        try:
+            with open(nombre, "wb") as archivo:
+                pickle.dump(arreglo, archivo)
+        except FileNotFoundError:
+            print("No se ha podido guardar el archivo")
+
+    @staticmethod
+    def cargar_archivo_bin(nombre):
+        try:
+            with open(nombre, "rb") as archivo:
+                arreglo = []
+                arreglo = pickle.load(archivo)
+                return arreglo
+        except FileNotFoundError:
+            #self.guardar_clientes()
+            print("No se ha podido guardar el archivo")

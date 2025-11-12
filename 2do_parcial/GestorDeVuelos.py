@@ -1,3 +1,4 @@
+import pickle
 from Herramientas import Herramientas
 from Vuelo import Vuelo
 from FechaHora import FechaHora
@@ -30,6 +31,21 @@ class GestorDeVuelos:
             "Tierra del Fuego",
             "Tucumán"
         ]
+        self.cargar_vuelos()
+
+    def guardar_vuelos(self) -> None:
+        try:
+            with open("vuelos.bin", "wb") as archivo:
+                pickle.dump(self.vuelos, archivo)
+        except FileNotFoundError:
+            print("No se ha podido guardar el archivo")
+
+    def cargar_vuelos(self) -> None:
+        try:
+            with open("vuelos.bin", "rb") as archivo:
+                self.vuelos = pickle.load(archivo)
+        except FileNotFoundError:
+            self.guardar_vuelos()
 
     def calcular_id(self) -> int:
         if len(self.vuelos) == 0:
@@ -41,7 +57,7 @@ class GestorDeVuelos:
         while True:
             print(mensaje)
             self.mostrar_menu_ciudades()
-            indice_de_ciudad = Herramientas().pedir_entero("Ingrese el nro de la Ciudad") - 1
+            indice_de_ciudad = Herramientas().pedir_entero("Ingrese el nro de la Ciudad : ") - 1
             if indice_de_ciudad >= 0 and indice_de_ciudad < len(self.ciudades):
                 return self.ciudades[indice_de_ciudad]
             else:
@@ -50,11 +66,17 @@ class GestorDeVuelos:
     def agregar_vuelo(self) -> None:
         print("=== Agregar Nuevo Vuelo ===")
         origen = self.pedir_ciudad_valida("Origen: ")
-        destino = self.pedir_ciudad_valida("Destino: ")
+        while True:
+            destino = self.pedir_ciudad_valida("Destino: ")
+            if origen != destino:
+                break
+            else:
+                print("El destino debe ser distinto que el origen")
         fecha_salida = FechaHora.pedir_fecha_hora_valida("Fecha Salida: ")
         fecha_llegada = FechaHora.pedir_fecha_hora_valida("Fecha Llegada: ")
         vuelo = Vuelo(self.calcular_id(), origen, destino, fecha_salida, fecha_llegada)
         self.vuelos.append(vuelo)
+        self.guardar_vuelos()
         print("Vuelo agregado correctamente.\n")
 
     def buscar_vuelo_por_origen_destino(self) -> list[Vuelo]:
@@ -87,6 +109,7 @@ class GestorDeVuelos:
         vuelo_a_eliminar = self.buscar_vuelo_por_id()
         if vuelo_a_eliminar:
             self.vuelos.remove(vuelo_a_eliminar)
+            self.guardar_vuelos()
             print("Vuelo eliminado correctamente.\n")
         else:
             print("Error - No se encontró el vuelo.\n")
@@ -107,6 +130,7 @@ class GestorDeVuelos:
             if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_salida} "):
                 nueva_fecha_llegada = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: ")
                 vuelo_a_editar.fecha_llegada = nueva_fecha_llegada
+            self.guardar_vuelos()
             print("Vuelo actualizado correctamente.\n")
         else:
             print("No se encontró el vuelo a editar.\n")
@@ -147,8 +171,14 @@ class GestorDeVuelos:
 
     def mostrar_menu_ciudades(self) -> None:
         print("Ciudades Disponibles: ")
+        cadena = ""
         for i in range(len(self.ciudades)):
-            print(f"{i+1}- {self.ciudades[i]}")
+            cadena += f"{i+1}- {self.ciudades[i]}\t | "
+            if i !=0 and i % 7 == 0:
+                print(cadena)
+                cadena = ""
+            if i == len(self.ciudades)-1:
+                print(cadena)
 
     def menu_vuelos(self) -> None:
         while True:

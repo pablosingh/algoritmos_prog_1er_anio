@@ -1,3 +1,4 @@
+import pickle
 from Herramientas import Herramientas
 from Reserva import Reserva
 from FechaHora import FechaHora
@@ -11,6 +12,21 @@ class GestorDeReservas:
         self.reservas: list[Reserva] = []
         self.gestor_de_pasajeros = gestor_de_pasajeros
         self.gestor_de_vuelos = gestor_de_vuelos
+        self.cargar_reservas()
+
+    def guardar_reservas(self) -> None:
+        try:
+            with open("reservas.bin", "wb") as archivo:
+                pickle.dump(self.reservas, archivo)
+        except FileNotFoundError:
+            print("No se ha podido guardar el archivo")
+
+    def cargar_reservas(self) -> None:
+        try:
+            with open("reservas.bin", "rb") as archivo:
+                self.reservas = pickle.load(archivo)
+        except FileNotFoundError:
+            self.guardar_reservas()
 
     def agregar_reserva(self) -> None:
         print("\n=== Nueva Reserva ===")
@@ -25,6 +41,7 @@ class GestorDeReservas:
 
         nueva_reserva: Reserva | None = Reserva(pasajero_encontrado, vuelo_encontrado, FechaHora())
         self.reservas.append(nueva_reserva)
+        self.guardar_reservas()
         print("Reserva creada")
 
     def buscar_reserva_por_dni(self) -> Reserva | None:
@@ -46,6 +63,7 @@ class GestorDeReservas:
         reserva = self.buscar_reserva_por_dni()
         if reserva:
             self.reservas.remove(reserva)
+            self.guardar_reservas()
             print("✅ Reserva eliminada correctamente.")
         else:
             print("❌ No se encontró la reserva a eliminar.")
@@ -69,7 +87,7 @@ class GestorDeReservas:
         nueva_fecha = input(f"Fecha reserva actual {reserva.fecha_reserva}: ") or None
         if nueva_fecha:
             reserva.fecha_reserva = FechaHora(nueva_fecha)
-
+        self.guardar_reservas()
         print("✅ Reserva actualizada.")
 
     def mostrar_reservas(self) -> None:
@@ -97,11 +115,11 @@ class GestorDeReservas:
             if opcion == 0:
                 break
             elif opcion == 1:
-                self.agregar_reserva(gestor_pasajeros, gestor_vuelos)
+                self.agregar_reserva()
             elif opcion == 2:
                 self.buscar_reserva()
             elif opcion == 3:
-                self.editar_reserva(gestor_vuelos)
+                self.editar_reserva()
             elif opcion == 4:
                 self.eliminar_reserva()
             elif opcion == 5:

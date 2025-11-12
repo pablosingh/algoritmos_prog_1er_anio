@@ -6,4 +6,4 @@ class Pasajero:
         self.nacionalidad = nacionalidad
 
     def __str__(self) -> str:
-        return f"{self.dni}\t|{self.nombre} \t|Nac: {self.nacionalidad}\n"
+        return f"{self.dni}\t|{self.nombre} \t|Nac: {self.nacionalidad}"

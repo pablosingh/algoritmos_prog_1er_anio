@@ -9,4 +9,4 @@ class Vuelo:
         self.fecha_llegada = fecha_llegada
 
     def __str__(self) -> str:
-        return f"Vuelo: {self.origen}\t|{self.destino} \t| Salida: {self.fecha_salida.__str__()} \t|{self.fecha_llegada.__str__()}\n"
+        return f"{self.id} Origen: {self.origen}\t| Destino: {self.destino} \t| Salida: {self.fecha_salida.__str__()} \t|{self.fecha_llegada.__str__()}"
