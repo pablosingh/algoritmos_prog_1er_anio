@@ -72,8 +72,8 @@ class GestorDeVuelos:
                 break
             else:
                 print("El destino debe ser distinto que el origen")
-        fecha_salida = FechaHora.pedir_fecha_hora_valida("Fecha Salida: ")
-        fecha_llegada = FechaHora.pedir_fecha_hora_valida("Fecha Llegada: ")
+        fecha_salida = FechaHora(FechaHora.pedir_fecha_hora_valida("Fecha Salida: "))
+        fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Fecha Llegada: "))
         vuelo = Vuelo(self.calcular_id(), origen, destino, fecha_salida, fecha_llegada)
         self.vuelos.append(vuelo)
         self.guardar_vuelos()
@@ -86,7 +86,6 @@ class GestorDeVuelos:
 
         for vuelo in self.vuelos:
             if vuelo.origen.lower() == origen.lower() and vuelo.destino.lower() == destino.lower():
-                #print(vuelo)
                 vuelos_encontrados.append(vuelo)
         return vuelos_encontrados
 
@@ -127,7 +126,7 @@ class GestorDeVuelos:
             if Herramientas.pedir_confirmacion(f"Editar Fecha Salida actual: {vuelo_a_editar.fecha_salida} "):
                 nueva_fecha_salida = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Salida: ")
                 vuelo_a_editar.fecha_salida = nueva_fecha_salida
-            if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_salida} "):
+            if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_llegada} "):
                 nueva_fecha_llegada = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: ")
                 vuelo_a_editar.fecha_llegada = nueva_fecha_llegada
             self.guardar_vuelos()
@@ -152,9 +151,6 @@ class GestorDeVuelos:
         dia, mes, anio = map(int, fecha_str.split('/'))
         if vuelos_para_filtrar:
             for vuelo in vuelos_para_filtrar:
-
-                print(type(vuelo.fecha_salida))
-
                 if vuelo.fecha_salida.dia == dia and vuelo.fecha_salida.mes == mes and vuelo.fecha_salida.anio == anio:
                     vuelos_filtrados.append(vuelo)
         else:
@@ -199,10 +195,13 @@ class GestorDeVuelos:
             elif opcion == 1:
                 self.agregar_vuelo()
             elif opcion == 2:
+                self.mostrar_vuelos()
                 self.buscar_vuelo()
             elif opcion == 3:
+                self.mostrar_vuelos()
                 self.editar_vuelo()
             elif opcion == 4:
+                self.mostrar_vuelos()
                 self.eliminar_vuelo()
             elif opcion == 5:
                 self.mostrar_vuelos()
