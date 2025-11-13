@@ -56,7 +56,7 @@ class GestorDeVuelos:
     def pedir_ciudad_valida(self, mensaje: str) -> str:
         while True:
             print(mensaje)
-            self.mostrar_menu_ciudades()
+            self.mostrar_menu_ciudades(mensaje)
             indice_de_ciudad = Herramientas().pedir_entero("Ingrese el nro de la Ciudad : ") - 1
             if indice_de_ciudad >= 0 and indice_de_ciudad < len(self.ciudades):
                 return self.ciudades[indice_de_ciudad]
@@ -81,12 +81,12 @@ class GestorDeVuelos:
 
     def buscar_vuelo_por_origen_destino(self) -> list[Vuelo]:
         vuelos_encontrados: list[Vuelo] = []
-        origen = self.pedir_ciudad_valida("Origen del vuelo a Buscar: ")
-        destino = self.pedir_ciudad_valida("Destino del vuelo a Buscar: ")
+        origen = self.pedir_ciudad_valida("ORIGEN del vuelo a Buscar: ")
+        destino = self.pedir_ciudad_valida("DESTINO del vuelo a Buscar: ")
 
         for vuelo in self.vuelos:
             if vuelo.origen.lower() == origen.lower() and vuelo.destino.lower() == destino.lower():
-                print(vuelo)
+                #print(vuelo)
                 vuelos_encontrados.append(vuelo)
         return vuelos_encontrados
 
@@ -152,6 +152,9 @@ class GestorDeVuelos:
         dia, mes, anio = map(int, fecha_str.split('/'))
         if vuelos_para_filtrar:
             for vuelo in vuelos_para_filtrar:
+
+                print(type(vuelo.fecha_salida))
+
                 if vuelo.fecha_salida.dia == dia and vuelo.fecha_salida.mes == mes and vuelo.fecha_salida.anio == anio:
                     vuelos_filtrados.append(vuelo)
         else:
@@ -161,24 +164,31 @@ class GestorDeVuelos:
         return vuelos_filtrados
 
     def mostrar_menu_vuelos(self) -> None:
-        print("\n===== MENÚ DE VUELOS =====")
-        print("0 - Salir")
-        print("1 - Agregar Vuelo")
-        print("2 - Buscar Vuelo")
-        print("3 - Editar Vuelo")
-        print("4 - Eliminar Vuelo")
-        print("5 - Mostrar todos los Vuelos")
+        print("===============================================================================")
+        print("==== MENÚ DE VUELOS =====")
+        print("\t0 - Salir")
+        print("\t1 - Agregar Vuelo")
+        print("\t2 - Buscar Vuelo")
+        print("\t3 - Editar Vuelo")
+        print("\t4 - Eliminar Vuelo")
+        print("\t5 - Mostrar todos los Vuelos")
 
-    def mostrar_menu_ciudades(self) -> None:
+    def mostrar_menu_ciudades(self, mensaje: str | None) -> None:
+        print("=============================")
+        if mensaje:
+            print(mensaje)
         print("Ciudades Disponibles: ")
-        cadena = ""
+        ancho = 23
         for i in range(len(self.ciudades)):
-            cadena += f"{i+1}- {self.ciudades[i]}\t | "
+            cadena: str = ""
+            cadena = f"{i+1}- {self.ciudades[i]}"
+            while len(cadena) < ancho:
+                cadena += " "
+            print(cadena, end="")
             if i !=0 and i % 7 == 0:
-                print(cadena)
-                cadena = ""
+                print()
             if i == len(self.ciudades)-1:
-                print(cadena)
+                print()
 
     def menu_vuelos(self) -> None:
         while True:
@@ -197,4 +207,4 @@ class GestorDeVuelos:
             elif opcion == 5:
                 self.mostrar_vuelos()
             else:
-                print("Opción inválida, intente nuevamente.\n")
+                print("Opción inválida")

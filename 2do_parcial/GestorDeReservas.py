@@ -31,6 +31,7 @@ class GestorDeReservas:
     def agregar_reserva(self) -> None:
         print("\n=== Nueva Reserva ===")
         pasajero_encontrado: Pasajero | None = self.gestor_de_pasajeros.buscar_pasajero_por_dni()
+        print(pasajero_encontrado)
         vuelos_filtrados: list[Vuelo] = self.gestor_de_vuelos.buscar_vuelo_por_origen_destino()
         self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados)
         if Herramientas.pedir_confirmacion("Desea Filtrar vuelos por Fecha?"):
@@ -99,13 +100,14 @@ class GestorDeReservas:
             print(reserva)
 
     def mostrar_menu_reservas(self) -> None:
-        print("\n=== MENÚ DE RESERVAS ===")
-        print("0 - Salir")
-        print("1 - Agregar Reserva")
-        print("2 - Buscar Reserva")
-        print("3 - Editar Reserva")
-        print("4 - Eliminar Reserva")
-        print("5 - Mostrar todas las Reservas")
+        print("===============================================================================")
+        print("=== MENÚ DE RESERVAS ===")
+        print("\t0 - Salir")
+        print("\t1 - Agregar Reserva")
+        print("\t2 - Buscar Reserva")
+        print("\t3 - Editar Reserva")
+        print("\t4 - Eliminar Reserva")
+        print("\t5 - Mostrar todas las Reservas")
 
     def menu_reservas(self, gestor_pasajeros: GestorDePasajeros, gestor_vuelos: GestorDeVuelos) -> None:
         while True:
@@ -125,4 +127,4 @@ class GestorDeReservas:
             elif opcion == 5:
                 self.mostrar_reservas()
             else:
-                print("❌ Opción inválida.")
+                print("Opción inválida.")

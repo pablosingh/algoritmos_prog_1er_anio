@@ -5,11 +5,11 @@ class FechaHora:
     def __init__(self, fecha_hora_str: str = None):
         if not fecha_hora_str:
             ahora = datetime.now()
-            self.dia = ahora.day
-            self.mes = ahora.month
-            self.anio = ahora.year
-            self.hora = ahora.hour
-            self.minuto = ahora.minute
+            self.dia = int(ahora.day)
+            self.mes = int(ahora.month)
+            self.anio = int(ahora.year)
+            self.hora = int(ahora.hour)
+            self.minuto = int(ahora.minute)
         else:
             if not self.es_fecha_hora_valida(fecha_hora_str):
                 raise ValueError('Formato no válido. Debe ser "dd/mm/aaaa HH:MM"')

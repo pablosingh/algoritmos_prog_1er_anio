@@ -69,12 +69,14 @@ class GestorDePasajeros:
             print(pasajero)
 
     def mostrar_menu_pasajeros(self)->None:
-        print("0 - Salir")
-        print("1 - Agregar Pasajero")
-        print("2 - Buscar Pasajero / Mostrar detalles de un Pasajero")
-        print("3 - Editar Pasajero")
-        print("4 - Eliminar Pasajero")
-        print("5 - Mostrar todos los Pasajeros")
+        print("===============================================================================")
+        print("=== MENU DE PASAJEROS ===")
+        print("\t0 - Salir")
+        print("\t1 - Agregar Pasajero")
+        print("\t2 - Buscar Pasajero / Mostrar detalles de un Pasajero")
+        print("\t3 - Editar Pasajero")
+        print("\t4 - Eliminar Pasajero")
+        print("\t5 - Mostrar todos los Pasajeros")
 
     def menu_pasajero(self)->None:
         while True:
