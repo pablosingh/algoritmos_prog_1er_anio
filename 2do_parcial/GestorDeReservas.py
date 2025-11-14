@@ -134,6 +134,23 @@ class GestorDeReservas:
         print("Reserva actualizada.")
 
 ###################################################################
+    def filtrar_reservas_por_id_vuelo(self, id: int)-> list[Reserva]:
+        reservas_para_retornar: list[Reserva] = []
+        for reserva in self.reservas:
+            if reserva.vuelo.id == id:
+                reservas_para_retornar.append(reserva)
+        return reservas_para_retornar
+
+    def mostrar_reservas_por_vuelo(self) -> None:
+        vuelo = self.gestor_de_vuelos.buscar_vuelo_por_id()
+        if not vuelo:
+            print("No se encontro el Vuelo.")
+            return None
+        reservas_por_id_vuelo = self.filtrar_reservas_por_id_vuelo(vuelo.id)
+        if not reservas_por_id_vuelo:
+            print("No se encontro el Vuelo.")
+            return None
+        self.mostrar_reservas_filtradas(reservas_por_id_vuelo)
 
     def mostrar_reservas(self) -> None:
         if not self.reservas:
@@ -153,6 +170,7 @@ class GestorDeReservas:
         print("\t4 - Editar Reserva")
         print("\t5 - Eliminar Reserva por ID")
         print("\t6 - Mostrar todas las Reservas")
+        print("\t7 - Mostrar reservas por Vuelo")
 
     def menu_reservas(self, gestor_pasajeros: GestorDePasajeros, gestor_vuelos: GestorDeVuelos) -> None:
         while True:
@@ -174,5 +192,8 @@ class GestorDeReservas:
                 self.eliminar_reserva()
             elif opcion == 6:
                 self.mostrar_reservas()
+            elif opcion == 7:
+                self.gestor_de_vuelos.mostrar_vuelos()
+                self.mostrar_reservas_por_vuelo()
             else:
                 print("Opción inválida.")
