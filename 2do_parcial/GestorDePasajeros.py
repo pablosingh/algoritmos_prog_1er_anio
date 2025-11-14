@@ -21,16 +21,36 @@ class GestorDePasajeros:
         except FileNotFoundError:
             self.guardar_pasajeros()
 
+    def pide_dni_valido_str(self, mensaje: str)->str:
+        while True:
+            if mensaje:
+                print(mensaje)
+            dni = input("DNI : ").strip()
+            dni = dni.replace(".", "")
+            if dni.isnumeric() and len(dni) > 6 and len(dni) < 9:
+                if not self.es_dni_duplicado(dni):
+                    return dni
+                else:
+                    print("DNI duplicado")
+            else:
+                print("Ingrese un DNI correcto.")
+
+    def es_dni_duplicado(self, dni: str)->bool:
+        for pasajero in self.pasajeros:
+            if pasajero.dni == dni:
+                return True
+        return False
+
     def agregar_pasajero(self)->None:
         nombre = input("Ingrese el Nombre/Apellido del Pasajero : ")
-        dni = input("Ingrese el DNI : ")
+        dni = self.pide_dni_valido_str()
         nacionalidad = input("Ingrese la nacionalidad : ")
 
         self.pasajeros.append(Pasajero(nombre, dni, nacionalidad))
         self.guardar_pasajeros()
 
     def buscar_pasajero_por_dni(self)-> Pasajero | None:
-        dni = input("Ingrese el DNI a buscar : ")
+        dni = self.pide_dni_valido_str("Ingrese el DNI a buscar : ")
         for pasajero in self.pasajeros:
             if pasajero.dni == dni:
                 return pasajero
@@ -57,7 +77,7 @@ class GestorDePasajeros:
         pasajero_a_editar = self.buscar_pasajero_por_dni()
         if pasajero_a_editar:
             print("Enter para continuar")
-            pasajero_a_editar.dni = input(f"DNI {pasajero_a_editar.dni}| Nuevo DNI: ") or pasajero_a_editar.dni
+            pasajero_a_editar.dni = self.pide_dni_valido_str(f"DNI {pasajero_a_editar.dni}| Nuevo DNI ")
             pasajero_a_editar.nombre = input(f"{pasajero_a_editar.nombre}| Nuevo Nombre: ") or pasajero_a_editar.nombre
             pasajero_a_editar.nacionalidad = input(f"{pasajero_a_editar.nacionalidad}| Nuevo Nacionalidad: ") or pasajero_a_editar.nacionalidad
             self.guardar_pasajeros()

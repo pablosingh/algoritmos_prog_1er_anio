@@ -124,10 +124,10 @@ class GestorDeVuelos:
                 nuevo_destino = self.pedir_ciudad_valida(f"Nuevo destino: ")
                 vuelo_a_editar.destino = nuevo_destino
             if Herramientas.pedir_confirmacion(f"Editar Fecha Salida actual: {vuelo_a_editar.fecha_salida} "):
-                nueva_fecha_salida = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Salida: ")
+                nueva_fecha_salida = FechaHora(FechaHora.pedir_fecha_hora_valida("Nueva Fecha Salida: "))
                 vuelo_a_editar.fecha_salida = nueva_fecha_salida
             if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_llegada} "):
-                nueva_fecha_llegada = FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: ")
+                nueva_fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: "))
                 vuelo_a_editar.fecha_llegada = nueva_fecha_llegada
             self.guardar_vuelos()
             print("Vuelo actualizado correctamente.\n")
