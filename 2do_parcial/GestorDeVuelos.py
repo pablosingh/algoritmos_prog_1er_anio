@@ -65,6 +65,9 @@ class GestorDeVuelos:
                 print("El destino debe ser distinto que el origen")
         fecha_salida = FechaHora(FechaHora.pedir_fecha_hora_valida("Fecha Salida: "))
         fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Fecha Llegada: "))
+        while fecha_salida.es_menor_que(fecha_llegada) :
+            print("La Fecha de llegada debe ser mayor que la de salida!")
+            fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Fecha Llegada: "))
         vuelo = Vuelo(self.calcular_id(), origen, destino, fecha_salida, fecha_llegada)
         self.vuelos.append(vuelo)
         self.guardar_vuelos()
@@ -114,11 +117,13 @@ class GestorDeVuelos:
             if Herramientas.pedir_confirmacion(f"Editar Destino actual: {vuelo_a_editar.destino} "):
                 nuevo_destino = self.pedir_ciudad_valida(f"Nuevo destino: ")
                 vuelo_a_editar.destino = nuevo_destino
-            if Herramientas.pedir_confirmacion(f"Editar Fecha Salida actual: {vuelo_a_editar.fecha_salida} "):
+            if Herramientas.pedir_confirmacion(f"Editar Fecha Salida/Llegada actual: {vuelo_a_editar.fecha_salida} | {vuelo_a_editar.fecha_llegada} "):
                 nueva_fecha_salida = FechaHora(FechaHora.pedir_fecha_hora_valida("Nueva Fecha Salida: "))
-                vuelo_a_editar.fecha_salida = nueva_fecha_salida
-            if Herramientas.pedir_confirmacion(f"Editar Fecha Llegada actual: {vuelo_a_editar.fecha_llegada} "):
                 nueva_fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: "))
+                while nueva_fecha_salida.es_menor_que(nueva_fecha_llegada):
+                    print("La Fecha de llegada debe ser mayor que la de salida !")
+                    nueva_fecha_llegada = FechaHora(FechaHora.pedir_fecha_hora_valida("Nueva Fecha Llegada: "))
+                vuelo_a_editar.fecha_salida = nueva_fecha_salida
                 vuelo_a_editar.fecha_llegada = nueva_fecha_llegada
             self.guardar_vuelos()
             print("Vuelo actualizado correctamente.\n")

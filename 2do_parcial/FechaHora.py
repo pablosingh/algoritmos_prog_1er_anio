@@ -16,7 +16,24 @@ class FechaHora:
             fecha_str, hora_str = fecha_hora_str.strip().split()
             self.dia, self.mes, self.anio = map(int, fecha_str.split('/'))
             self.hora, self.minuto = map(int, hora_str.split(':'))
-
+    
+    def es_menor_que(self, otra_fecha_hora) -> bool:
+        if isinstance(otra_fecha_hora, FechaHora):
+            if self.anio > otra_fecha_hora.anio:
+                return False
+            if self.mes > otra_fecha_hora.mes:
+                return False
+            if self.dia > otra_fecha_hora.dia:
+                return False
+            if self.hora > otra_fecha_hora.hora:
+                return False
+            if self.minuto > otra_fecha_hora.minuto:
+                return False
+            return True
+        else:
+            print("Error al comparar - No es un objeto de FechaHora")
+            return False
+    
     @staticmethod
     def es_fecha_hora_valida(fecha_hora: str) -> bool:
         patron = r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4} ([01]\d|2[0-3]):([0-5]\d)$'
