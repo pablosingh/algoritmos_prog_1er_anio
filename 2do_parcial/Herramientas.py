@@ -58,5 +58,4 @@ class Herramientas:
                 arreglo = pickle.load(archivo)
                 return arreglo
         except FileNotFoundError:
-            #self.guardar_clientes()
-            print("No se ha podido guardar el archivo")
+            print("No se ha podido cargar el archivo")

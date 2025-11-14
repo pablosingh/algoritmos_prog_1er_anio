@@ -34,18 +34,10 @@ class GestorDeVuelos:
         self.cargar_vuelos()
 
     def guardar_vuelos(self) -> None:
-        try:
-            with open("vuelos.bin", "wb") as archivo:
-                pickle.dump(self.vuelos, archivo)
-        except FileNotFoundError:
-            print("No se ha podido guardar el archivo")
+        Herramientas.guardar_archivo_bin("vuelos.bin", self.vuelos)
 
     def cargar_vuelos(self) -> None:
-        try:
-            with open("vuelos.bin", "rb") as archivo:
-                self.vuelos = pickle.load(archivo)
-        except FileNotFoundError:
-            self.guardar_vuelos()
+        self.vuelos = Herramientas.cargar_archivo_bin("vuelos.bin")
 
     def calcular_id(self) -> int:
         if len(self.vuelos) == 0:
@@ -55,7 +47,6 @@ class GestorDeVuelos:
 
     def pedir_ciudad_valida(self, mensaje: str) -> str:
         while True:
-            print(mensaje)
             self.mostrar_menu_ciudades(mensaje)
             indice_de_ciudad = Herramientas().pedir_entero("Ingrese el nro de la Ciudad : ") - 1
             if indice_de_ciudad >= 0 and indice_de_ciudad < len(self.ciudades):
@@ -97,9 +88,9 @@ class GestorDeVuelos:
         return None
 
     def buscar_vuelo(self)->None:
-        vuelo = self.buscar_vuelo_por_origen_destino()
-        if vuelo:
-            print(vuelo)
+        vuelos = self.buscar_vuelo_por_origen_destino()
+        if vuelos:
+            self.mostrar_vuelos(vuelos)
         else:
             print("No se Encontro el vuelo")
 
@@ -174,14 +165,14 @@ class GestorDeVuelos:
         if mensaje:
             print(mensaje)
         print("Ciudades Disponibles: ")
-        ancho = 23
+        ancho = 24
         for i in range(len(self.ciudades)):
             cadena: str = ""
             cadena = f"{i+1}- {self.ciudades[i]}"
             while len(cadena) < ancho:
                 cadena += " "
             print(cadena, end="")
-            if i !=0 and i % 7 == 0:
+            if i !=0 and (i+1) % 4 == 0:
                 print()
             if i == len(self.ciudades)-1:
                 print()

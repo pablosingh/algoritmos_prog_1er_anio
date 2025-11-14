@@ -10,5 +10,10 @@ class Reserva:
         self.fecha_reserva = fecha_reserva
 
     def __str__(self) -> str:
-        return f"{self.id} Reserva: {self.pasajero.__str__()}\t|{self.vuelo.__str__()} \t| {self.fecha_reserva.__str__()}"
+        return (f"ID Reserva: {self.id}\n "
+                f"{self.pasajero.__str__()}\n "
+                f"{self.vuelo.__str__()} \n "
+                f"Creacion de Reserva: {self.fecha_reserva.__str__()}\n"
+                f"---------------------------------")
+
 

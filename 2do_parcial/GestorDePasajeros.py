@@ -8,6 +8,8 @@ class GestorDePasajeros:
         self.cargar_pasajeros()
 
     def guardar_pasajeros(self) -> None:
+        Herramientas().guardar_archivo_bin("pasajeros.bin", self.pasajeros)
+        return None
         try:
             with open("pasajeros.bin", "wb") as archivo:
                 pickle.dump(self.pasajeros, archivo)
@@ -15,23 +17,22 @@ class GestorDePasajeros:
             print("No se ha podido guardar el archivo")
 
     def cargar_pasajeros(self) -> None:
+        self.pasajeros = Herramientas.cargar_archivo_bin("pasajeros.bin")
+        return None
         try:
             with open("pasajeros.bin", "rb") as archivo:
                 self.pasajeros = pickle.load(archivo)
         except FileNotFoundError:
             self.guardar_pasajeros()
 
-    def pide_dni_valido_str(self, mensaje: str)->str:
+    def pide_dni_valido_str(self, mensaje: str | None)->str:
         while True:
             if mensaje:
                 print(mensaje)
             dni = input("DNI : ").strip()
             dni = dni.replace(".", "")
             if dni.isnumeric() and len(dni) > 6 and len(dni) < 9:
-                if not self.es_dni_duplicado(dni):
-                    return dni
-                else:
-                    print("DNI duplicado")
+                return dni
             else:
                 print("Ingrese un DNI correcto.")
 
@@ -43,7 +44,9 @@ class GestorDePasajeros:
 
     def agregar_pasajero(self)->None:
         nombre = input("Ingrese el Nombre/Apellido del Pasajero : ")
-        dni = self.pide_dni_valido_str()
+        dni = self.pide_dni_valido_str("")
+        while self.es_dni_duplicado(dni):
+            dni = self.pide_dni_valido_str("")
         nacionalidad = input("Ingrese la nacionalidad : ")
 
         self.pasajeros.append(Pasajero(nombre, dni, nacionalidad))
@@ -76,8 +79,14 @@ class GestorDePasajeros:
         print("Para Editar un Pasajero")
         pasajero_a_editar = self.buscar_pasajero_por_dni()
         if pasajero_a_editar:
+            dni = self.pide_dni_valido_str(f"DNI {pasajero_a_editar.dni}| Nuevo DNI ")
+            while self.es_dni_duplicado(dni):
+                if pasajero_a_editar.dni == dni:
+                    break
+                print("DNI Duplicado")
+                dni = self.pide_dni_valido_str(f"DNI {pasajero_a_editar.dni}| Nuevo DNI ")
+            pasajero_a_editar.dni = dni
             print("Enter para continuar")
-            pasajero_a_editar.dni = self.pide_dni_valido_str(f"DNI {pasajero_a_editar.dni}| Nuevo DNI ")
             pasajero_a_editar.nombre = input(f"{pasajero_a_editar.nombre}| Nuevo Nombre: ") or pasajero_a_editar.nombre
             pasajero_a_editar.nacionalidad = input(f"{pasajero_a_editar.nacionalidad}| Nuevo Nacionalidad: ") or pasajero_a_editar.nacionalidad
             self.guardar_pasajeros()

@@ -21,32 +21,36 @@ class GestorDeReservas:
             return self.reservas[len(self.reservas) - 1].id + 1
 
     def guardar_reservas(self) -> None:
-        try:
-            with open("reservas.bin", "wb") as archivo:
-                pickle.dump(self.reservas, archivo)
-        except FileNotFoundError:
-            print("No se ha podido guardar el archivo")
+        Herramientas.guardar_archivo_bin("reservas.bin", self.reservas)
 
     def cargar_reservas(self) -> None:
-        try:
-            with open("reservas.bin", "rb") as archivo:
-                self.reservas = pickle.load(archivo)
-        except FileNotFoundError:
-            self.guardar_reservas()
+        self.reservas = Herramientas.cargar_archivo_bin("reservas.bin")
 
     def agregar_reserva(self) -> None:
         print("\n=== Nueva Reserva ===")
         pasajero_encontrado: Pasajero | None = self.gestor_de_pasajeros.buscar_pasajero_por_dni()
+        if not pasajero_encontrado:
+            print("No se encontro el pasajero")
+            return None
         print(pasajero_encontrado)
 
         vuelos_filtrados: list[Vuelo] = self.gestor_de_vuelos.buscar_vuelo_por_origen_destino()
+        if not vuelos_filtrados:
+            print("No se encontraron vuelos disponibles")
+            return None
         self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados)
 
         if Herramientas.pedir_confirmacion("Desea Filtrar vuelos por Fecha?"):
             vuelos_filtrados_por_fecha = self.gestor_de_vuelos.filtrar_vuelos_por_fecha(vuelos_filtrados)
+            if not vuelos_filtrados_por_fecha:
+                print("No se encontraron vuelos disponibles")
+                return None
             self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados_por_fecha)
 
         vuelo_encontrado: Vuelo | None = self.gestor_de_vuelos.buscar_vuelo_por_id()
+        if not vuelo_encontrado:
+            print("No se encontro el vuelo")
+            return None
 
         nueva_reserva: Reserva | None = Reserva(self.calcular_id(), pasajero_encontrado, vuelo_encontrado, FechaHora())
         self.reservas.append(nueva_reserva)
@@ -87,7 +91,7 @@ class GestorDeReservas:
 #####################################################################
     def buscar_reserva_por_dni(self) -> list[Reserva] | None:
         reservas_para_retornar: list[Reserva] = []
-        dni = input("Ingrese el DNI del pasajero para buscar su reserva: ")
+        dni = self.gestor_de_pasajeros.pide_dni_valido_str("Ingrese el DNI del pasajero para buscar su reserva: ")
         for reserva in self.reservas:
             if reserva.pasajero.dni == dni:
                 reservas_para_retornar.append(reserva)
@@ -101,14 +105,23 @@ class GestorDeReservas:
     def editar_reserva(self) -> None:
         print("\n=== Editar Reserva ===")
         reserva_a_editar = self.buscar_reserva_por_id()
+        if not reserva_a_editar:
+            print("No se encontro la reserva.")
+            return None
         if Herramientas.pedir_confirmacion("Editar Pasajero? "):
             nuevo_pasajero = self.gestor_de_pasajeros.buscar_pasajero_por_dni()
             if nuevo_pasajero:
                 reserva_a_editar.pasajero = nuevo_pasajero
+            else:
+                print("No se encontro el Pasajero.")
+                return None
         if Herramientas.pedir_confirmacion("Editar Vuelo? "):
             vuelos_filtrados: list[Vuelo] = self.gestor_de_vuelos.buscar_vuelo_por_origen_destino()
-            self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados)
-
+            if vuelos_filtrados:
+                self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados)
+            else:
+                print("No se encontro el Vuelo.")
+                return None
             if Herramientas.pedir_confirmacion("Desea Filtrar vuelos por Fecha?"):
                 vuelos_filtrados_por_fecha = self.gestor_de_vuelos.filtrar_vuelos_por_fecha(vuelos_filtrados)
                 self.gestor_de_vuelos.mostrar_vuelos(vuelos_filtrados_por_fecha)
@@ -145,7 +158,6 @@ class GestorDeReservas:
         while True:
             self.mostrar_menu_reservas()
             opcion = Herramientas.pedir_entero("Opción: ")
-
             if opcion == 0:
                 break
             elif opcion == 1:
@@ -155,8 +167,10 @@ class GestorDeReservas:
             elif opcion == 3:
                 self.buscar_reserva_por_pasajero()
             elif opcion == 4:
+                self.mostrar_reservas()
                 self.editar_reserva()
             elif opcion == 5:
+                self.mostrar_reservas()
                 self.eliminar_reserva()
             elif opcion == 6:
                 self.mostrar_reservas()
