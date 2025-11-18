@@ -1,3 +1,4 @@
+from Menu import Menu
 from Herramientas import Herramientas
 from GestorDePasajeros import GestorDePasajeros
 from GestorDeVuelos import GestorDeVuelos
@@ -21,7 +22,7 @@ def menu_principal(gestor_de_pasajeros: GestorDePasajeros, gestor_de_vuelos: Ges
         elif opcion == 2:
             gestor_de_vuelos.menu_vuelos()
         elif opcion == 3:
-            gestor_de_reservas.menu_reservas(gestor_de_pasajeros, gestor_de_vuelos)
+            gestor_de_reservas.menu_reservas()
         else:
             print("Opcion invalida")
 
@@ -30,6 +31,15 @@ def main():
     gestor_de_vuelos = GestorDeVuelos()
     gestor_de_reservas = GestorDeReservas(gestor_de_pasajeros, gestor_de_vuelos)
 
-    menu_principal(gestor_de_pasajeros, gestor_de_vuelos, gestor_de_reservas)
+    #menu_principal(gestor_de_pasajeros, gestor_de_vuelos, gestor_de_reservas)
+
+    opciones = [
+        ("0- Salir", "Salir"),
+        ("1- Gestor de Pasajeros", gestor_de_pasajeros.menu_pasajero),
+        ("2- Gestor de Vuelos", gestor_de_vuelos.menu_vuelos),
+        ("3- Gestor de Reservas", gestor_de_reservas.menu_reservas)
+    ]
+    mi_menu = Menu(opciones)
+    mi_menu.seleccionar_func("=== Menu Principal ===")
 
 main()

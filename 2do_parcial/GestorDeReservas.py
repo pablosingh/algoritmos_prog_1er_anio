@@ -172,7 +172,7 @@ class GestorDeReservas:
         print("\t6 - Mostrar todas las Reservas")
         print("\t7 - Mostrar reservas por Vuelo")
 
-    def menu_reservas(self, gestor_pasajeros: GestorDePasajeros, gestor_vuelos: GestorDeVuelos) -> None:
+    def menu_reservas(self) -> None:
         while True:
             self.mostrar_menu_reservas()
             opcion = Herramientas.pedir_entero("Opción: ")
