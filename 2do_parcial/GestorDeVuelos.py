@@ -158,16 +158,6 @@ class GestorDeVuelos:
                     vuelos_filtrados.append(vuelo)
         return vuelos_filtrados
 
-    def mostrar_menu_vuelos(self) -> None:
-        print("===============================================================================")
-        print("==== MENÚ DE VUELOS =====")
-        print("\t0 - Salir")
-        print("\t1 - Agregar Vuelo")
-        print("\t2 - Buscar Vuelo")
-        print("\t3 - Editar Vuelo")
-        print("\t4 - Eliminar Vuelo")
-        print("\t5 - Mostrar todos los Vuelos")
-
     def mostrar_menu_ciudades(self, mensaje: str | None) -> None:
         print("=============================")
         if mensaje:
@@ -184,25 +174,6 @@ class GestorDeVuelos:
                 print()
             if i == len(self.ciudades)-1:
                 print()
-
-    def menu_vuelos(self) -> None:
-        while True:
-            self.mostrar_menu_vuelos()
-            opcion = Herramientas.pedir_entero("Opción: ")
-            if opcion == 0:
-                break
-            elif opcion == 1:
-                self.agregar_vuelo()
-            elif opcion == 2:
-                self.buscar_vuelo()
-            elif opcion == 3:
-                self.editar_vuelo()
-            elif opcion == 4:
-                self.eliminar_vuelo()
-            elif opcion == 5:
-                self.mostrar_vuelos()
-            else:
-                print("Opción inválida")
 
     def menu_vuelo_tupla(self) -> None:
         mensaje = "===============================================================================\n"

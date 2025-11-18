@@ -1,4 +1,3 @@
-import pickle
 from Herramientas import Herramientas
 from Pasajero import Pasajero
 from Menu import Menu
@@ -11,20 +10,10 @@ class GestorDePasajeros:
     def guardar_pasajeros(self) -> None:
         Herramientas().guardar_archivo_bin("pasajeros.bin", self.pasajeros)
         return None
-        try:
-            with open("pasajeros.bin", "wb") as archivo:
-                pickle.dump(self.pasajeros, archivo)
-        except FileNotFoundError:
-            print("No se ha podido guardar el archivo")
 
     def cargar_pasajeros(self) -> None:
         self.pasajeros = Herramientas.cargar_archivo_bin("pasajeros.bin")
         return None
-        try:
-            with open("pasajeros.bin", "rb") as archivo:
-                self.pasajeros = pickle.load(archivo)
-        except FileNotFoundError:
-            self.guardar_pasajeros()
 
     def pide_dni_valido_str(self, mensaje: str | None)->str:
         while True:
@@ -97,35 +86,6 @@ class GestorDePasajeros:
     def mostrar_pasajeros(self)->None:
         for pasajero in self.pasajeros:
             print(pasajero)
-
-    def mostrar_menu_pasajeros(self)->None:
-        print("===============================================================================")
-        print("=== MENU DE PASAJEROS ===")
-        print("\t0 - Salir")
-        print("\t1 - Agregar Pasajero")
-        print("\t2 - Buscar Pasajero / Mostrar detalles de un Pasajero")
-        print("\t3 - Editar Pasajero")
-        print("\t4 - Eliminar Pasajero")
-        print("\t5 - Mostrar todos los Pasajeros")
-
-    def menu_pasajero(self)->None:
-        while True:
-            self.mostrar_menu_pasajeros()
-            opcion = Herramientas.pedir_entero("Opcion: ")
-            if opcion == 0:
-                break
-            elif opcion == 1:
-                self.agregar_pasajero()
-            elif opcion == 2:
-                self.buscar_pasajero()
-            elif opcion == 3:
-                self.editar_pasajero()
-            elif opcion == 4:
-                self.eliminar_pasajero_dni()
-            elif opcion == 5:
-                self.mostrar_pasajeros()
-            else:
-                print("Opcion Invalida")
 
     def menu_pasajero_tupla(self)->None:
         mensaje = "===============================================================================\n"

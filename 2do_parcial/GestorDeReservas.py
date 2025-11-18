@@ -163,41 +163,6 @@ class GestorDeReservas:
         for reserva in self.reservas:
             print(reserva)
 
-    def mostrar_menu_reservas(self) -> None:
-        print("===============================================================================")
-        print("=== MENÚ DE RESERVAS ===")
-        print("\t0 - Salir")
-        print("\t1 - Agregar Reserva")
-        print("\t2 - Buscar Reserva por ID")
-        print("\t3 - Buscar Reservas por DNI")
-        print("\t4 - Editar Reserva")
-        print("\t5 - Eliminar Reserva por ID")
-        print("\t6 - Mostrar todas las Reservas")
-        print("\t7 - Mostrar reservas por Vuelo")
-
-    def menu_reservas(self) -> None:
-        while True:
-            self.mostrar_menu_reservas()
-            opcion = Herramientas.pedir_entero("Opción: ")
-            if opcion == 0:
-                break
-            elif opcion == 1:
-                self.agregar_reserva()
-            elif opcion == 2:
-                self.buscar_reserva()
-            elif opcion == 3:
-                self.buscar_reserva_por_pasajero()
-            elif opcion == 4:
-                self.editar_reserva()
-            elif opcion == 5:
-                self.eliminar_reserva()
-            elif opcion == 6:
-                self.mostrar_reservas()
-            elif opcion == 7:
-                self.mostrar_reservas_por_vuelo()
-            else:
-                print("Opción inválida.")
-
     def menu_reserva_tupla(self) -> None:
         mensaje = "===============================================================================\n"
         mensaje += "=== MENU DE RESERVAS ==="
