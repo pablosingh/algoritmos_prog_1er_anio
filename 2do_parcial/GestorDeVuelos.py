@@ -1,7 +1,7 @@
-import pickle
 from Herramientas import Herramientas
 from Vuelo import Vuelo
 from FechaHora import FechaHora
+from Menu import Menu
 
 class GestorDeVuelos:
     def __init__(self):
@@ -203,3 +203,18 @@ class GestorDeVuelos:
                 self.mostrar_vuelos()
             else:
                 print("Opción inválida")
+
+    def menu_vuelo_tupla(self) -> None:
+        mensaje = "===============================================================================\n"
+        mensaje += "=== MENU DE VUELOS ==="
+        opciones = [
+            ("\t0 - Salir", lambda: print("Saliendo...")),
+            ("\t1 - Agregar Vuelo", self.agregar_vuelo()),
+            ("\t2 - Buscar Vuelo", self.buscar_vuelo()),
+            ("\t3 - Editar Vuelo", self.editar_vuelo()),
+            ("\t4 - Eliminar Vuelo", self.eliminar_vuelo()),
+            ("\t5 - Mostrar todos los Vuelos", self.mostrar_vuelos())
+        ]
+
+        menu_vuelos = Menu(opciones)
+        menu_vuelos.seleccionar_func(mensaje)

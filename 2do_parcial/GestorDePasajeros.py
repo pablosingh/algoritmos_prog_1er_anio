@@ -1,6 +1,7 @@
 import pickle
 from Herramientas import Herramientas
 from Pasajero import Pasajero
+from Menu import Menu
 
 class GestorDePasajeros:
     def __init__(self):
@@ -125,3 +126,18 @@ class GestorDePasajeros:
                 self.mostrar_pasajeros()
             else:
                 print("Opcion Invalida")
+
+    def menu_pasajero_tupla(self)->None:
+        mensaje = "===============================================================================\n"
+        mensaje += "=== MENU DE PASAJEROS ==="
+        opciones = [
+            ("\t0 - Salir", lambda: print("Saliendo...")),
+            ("\t1 - Agregar Pasajero", self.agregar_pasajero()),
+            ("\t2 - Buscar Pasajero / Mostrar detalles de un Pasajero", self.buscar_pasajero()),
+            ("\t3 - Editar Pasajero", self.editar_pasajero()),
+            ("\t4 - Eliminar Pasajero", self.eliminar_pasajero_dni()),
+            ("\t5 - Mostrar todos los Pasajeros", self.mostrar_pasajeros())
+        ]
+
+        menu_pasajeros = Menu(opciones)
+        menu_pasajeros.seleccionar_func(mensaje)

@@ -31,10 +31,8 @@ def main():
     gestor_de_vuelos = GestorDeVuelos()
     gestor_de_reservas = GestorDeReservas(gestor_de_pasajeros, gestor_de_vuelos)
 
-    #menu_principal(gestor_de_pasajeros, gestor_de_vuelos, gestor_de_reservas)
-
     opciones = [
-        ("0- Salir", "Salir"),
+        ("0- Salir", lambda: print("Saliendo...")),
         ("1- Gestor de Pasajeros", gestor_de_pasajeros.menu_pasajero),
         ("2- Gestor de Vuelos", gestor_de_vuelos.menu_vuelos),
         ("3- Gestor de Reservas", gestor_de_reservas.menu_reservas)
