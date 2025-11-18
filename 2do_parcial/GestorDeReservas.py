@@ -1,4 +1,4 @@
-import pickle
+from Menu import Menu
 from Herramientas import Herramientas
 from Reserva import Reserva
 from FechaHora import FechaHora
@@ -79,6 +79,7 @@ class GestorDeReservas:
             print("No se Encontro la Reserva")
 
     def eliminar_reserva(self) -> None:
+        self.mostrar_reservas()
         print("=== Eliminar Reserva ===")
         reserva_a_eliminar = self.buscar_reserva_por_id()
         if reserva_a_eliminar:
@@ -103,6 +104,7 @@ class GestorDeReservas:
 
 #####################################################################
     def editar_reserva(self) -> None:
+        self.mostrar_reservas()
         print("\n=== Editar Reserva ===")
         reserva_a_editar = self.buscar_reserva_por_id()
         if not reserva_a_editar:
@@ -142,6 +144,7 @@ class GestorDeReservas:
         return reservas_para_retornar
 
     def mostrar_reservas_por_vuelo(self) -> None:
+        self.gestor_de_vuelos.mostrar_vuelos()
         vuelo = self.gestor_de_vuelos.buscar_vuelo_por_id()
         if not vuelo:
             print("No se encontro el Vuelo.")
@@ -185,15 +188,29 @@ class GestorDeReservas:
             elif opcion == 3:
                 self.buscar_reserva_por_pasajero()
             elif opcion == 4:
-                self.mostrar_reservas()
                 self.editar_reserva()
             elif opcion == 5:
-                self.mostrar_reservas()
                 self.eliminar_reserva()
             elif opcion == 6:
                 self.mostrar_reservas()
             elif opcion == 7:
-                self.gestor_de_vuelos.mostrar_vuelos()
                 self.mostrar_reservas_por_vuelo()
             else:
                 print("Opción inválida.")
+
+    def menu_reserva_tupla(self) -> None:
+        mensaje = "===============================================================================\n"
+        mensaje += "=== MENU DE RESERVAS ==="
+        opciones = [
+            ("\t0 - Salir", lambda: print("Saliendo...")),
+            ("\t1 - Agregar Reserva", self.agregar_reserva),
+            ("\t2 - Buscar Reserva por ID", self.buscar_reserva),
+            ("\t3 - Buscar Reservas por DNI", self.buscar_reserva_por_pasajero),
+            ("\t4 - Editar Reserva", self.editar_reserva),
+            ("\t5 - Eliminar Reserva por ID", self.eliminar_reserva),
+            ("\t6 - Mostrar todas las Reservas", self.mostrar_reservas),
+            ("\t7 - Mostrar reservas por Vuelo", self.mostrar_reservas_por_vuelo)
+        ]
+
+        menu_reserva = Menu(opciones)
+        menu_reserva.seleccionar_func(mensaje)

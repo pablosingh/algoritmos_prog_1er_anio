@@ -132,11 +132,11 @@ class GestorDePasajeros:
         mensaje += "=== MENU DE PASAJEROS ==="
         opciones = [
             ("\t0 - Salir", lambda: print("Saliendo...")),
-            ("\t1 - Agregar Pasajero", self.agregar_pasajero()),
-            ("\t2 - Buscar Pasajero / Mostrar detalles de un Pasajero", self.buscar_pasajero()),
-            ("\t3 - Editar Pasajero", self.editar_pasajero()),
-            ("\t4 - Eliminar Pasajero", self.eliminar_pasajero_dni()),
-            ("\t5 - Mostrar todos los Pasajeros", self.mostrar_pasajeros())
+            ("\t1 - Agregar Pasajero", self.agregar_pasajero),
+            ("\t2 - Buscar Pasajero / Mostrar detalles de un Pasajero", self.buscar_pasajero),
+            ("\t3 - Editar Pasajero", self.editar_pasajero),
+            ("\t4 - Eliminar Pasajero", self.eliminar_pasajero_dni),
+            ("\t5 - Mostrar todos los Pasajeros", self.mostrar_pasajeros)
         ]
 
         menu_pasajeros = Menu(opciones)

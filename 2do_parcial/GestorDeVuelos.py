@@ -91,6 +91,7 @@ class GestorDeVuelos:
         return None
 
     def buscar_vuelo(self)->None:
+        self.mostrar_vuelos()
         vuelos = self.buscar_vuelo_por_origen_destino()
         if vuelos:
             self.mostrar_vuelos(vuelos)
@@ -98,6 +99,7 @@ class GestorDeVuelos:
             print("No se Encontro el vuelo")
 
     def eliminar_vuelo(self) -> None:
+        self.mostrar_vuelos()
         print("=== Eliminar Vuelo ===")
         vuelo_a_eliminar = self.buscar_vuelo_por_id()
         if vuelo_a_eliminar:
@@ -108,6 +110,7 @@ class GestorDeVuelos:
             print("Error - No se encontró el vuelo.\n")
 
     def editar_vuelo(self) -> None:
+        self.mostrar_vuelos()
         print("=== Editar Vuelo ===")
         vuelo_a_editar = self.buscar_vuelo_por_id()
         if vuelo_a_editar:
@@ -191,13 +194,10 @@ class GestorDeVuelos:
             elif opcion == 1:
                 self.agregar_vuelo()
             elif opcion == 2:
-                self.mostrar_vuelos()
                 self.buscar_vuelo()
             elif opcion == 3:
-                self.mostrar_vuelos()
                 self.editar_vuelo()
             elif opcion == 4:
-                self.mostrar_vuelos()
                 self.eliminar_vuelo()
             elif opcion == 5:
                 self.mostrar_vuelos()
@@ -209,11 +209,11 @@ class GestorDeVuelos:
         mensaje += "=== MENU DE VUELOS ==="
         opciones = [
             ("\t0 - Salir", lambda: print("Saliendo...")),
-            ("\t1 - Agregar Vuelo", self.agregar_vuelo()),
-            ("\t2 - Buscar Vuelo", self.buscar_vuelo()),
-            ("\t3 - Editar Vuelo", self.editar_vuelo()),
-            ("\t4 - Eliminar Vuelo", self.eliminar_vuelo()),
-            ("\t5 - Mostrar todos los Vuelos", self.mostrar_vuelos())
+            ("\t1 - Agregar Vuelo", self.agregar_vuelo),
+            ("\t2 - Buscar Vuelo", self.buscar_vuelo),
+            ("\t3 - Editar Vuelo", self.editar_vuelo),
+            ("\t4 - Eliminar Vuelo", self.eliminar_vuelo),
+            ("\t5 - Mostrar todos los Vuelos", self.mostrar_vuelos)
         ]
 
         menu_vuelos = Menu(opciones)
